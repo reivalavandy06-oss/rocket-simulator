@@ -1,27 +1,75 @@
-const rocket = document.getElementById('rocket');
-const launchButton = document.getElementById('launchButton');
-const fuel = document.getElementById('fuel');
-const altitudeValue = document.getElementById('altitudeValue');
-const status = document.getElementById('status');
+let rocket = document.getElementById("rocket");
+let fuelText = document.getElementById("fuel");
+let altText = document.getElementById("altitude");
+let statusText = document.getElementById("status");
 
-let altitude = 0;
-let fuelValue = 100;
+let y = 0;
+let x = 0;
+let velocity = 0;
+let fuel = 100;
+let flying = false;
+let parachute = false;
 
-launchButton.addEventListener('click', () => {
-    if (fuelValue > 0) {
-        status.textContent = 'Status: Flying';
-        const rocketAnimation = setInterval(() => {
-            rocket.style.bottom = `${altitude}px`;
-            altitude += 10;
-            altitudeValue.textContent = altitude;
-            fuelValue -= 1;
-            fuel.textContent = fuelValue;
-            if (altitude >= 500) {
-                clearInterval(rocketAnimation);
-                status.textContent = 'Status: Landed';
-            }
-        }, 100);
+function updateUI() {
+  fuelText.innerText = fuel;
+  altText.innerText = Math.floor(y);
+}
+
+function launch() {
+  if (flying) return;
+
+  flying = true;
+  statusText.innerText = "Flying";
+
+  setInterval(gameLoop, 50);
+}
+
+function thrust() {
+  if (fuel <= 0) return;
+
+  velocity += 1.5;
+  fuel -= 2;
+  rocket.classList.add("fire");
+
+  setTimeout(() => rocket.classList.remove("fire"), 100);
+}
+
+function left() {
+  x -= 10;
+}
+
+function right() {
+  x += 10;
+}
+
+function deployParachute() {
+  parachute = true;
+}
+
+function gameLoop() {
+  if (!flying) return;
+
+  // gravity
+  velocity -= parachute ? 0.3 : 0.8;
+
+  y += velocity;
+
+  if (y < 0) {
+    y = 0;
+
+    if (velocity < -5) {
+      statusText.innerText = "💥 Crashed!";
+      rocket.style.background = "red";
     } else {
-        status.textContent = 'Status: Out of fuel';
+      statusText.innerText = "✅ Landed";
     }
-});}});
+
+    flying = false;
+    return;
+  }
+
+  rocket.style.bottom = y + "px";
+  rocket.style.left = "calc(50% + " + x + "px)";
+
+  updateUI();
+}
