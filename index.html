@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rocket Simulator</title>
-    <link rel="stylesheet" href="style.css">
+  <title>Rocket Simulator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div id="rocket"></div>
-    <button id="launchButton">Launch</button>
-    <div id="fuelBar">Fuel: <span id="fuel">100</span></div>
-    <div id="altitude">Altitude: <span id="altitudeValue">0</span></div>
-    <div id="status">Status: Ready to launch</div>
-    <script src="script.js"></script>
-</body>
 
+<h1>🚀 Rocket Simulator</h1>
+
+<div id="game">
+  <div id="rocket"></div>
+</div>
+
+<div id="ui">
+  <button onclick="launch()">Launch</button>
+  <button onclick="thrust()">🔥 Thrust</button>
+  <button onclick="left()">⬅️</button>
+  <button onclick="right()">➡️</button>
+  <button onclick="deployParachute()">🪂 Parachute</button>
+
+  <p>Fuel: <span id="fuel">100</span></p>
+  <p>Altitude: <span id="altitude">0</span></p>
+  <p>Status: <span id="status">Ready</span></p>
+</div>
+
+<script src="script.js"></script>
+</body>
 </html>
